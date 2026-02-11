@@ -18,6 +18,7 @@ export function registerCrudTools(server: McpServer, client: NetBoxClient) {
         .optional()
         .describe('Filter parameters as key-value pairs (e.g., {"status": "active", "site_id": 1})'),
     },
+    { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
     async ({ resource, limit, offset, filters }) => {
       const params: Record<string, unknown> = { ...filters };
       if (limit !== undefined) params.limit = limit;
@@ -42,6 +43,7 @@ export function registerCrudTools(server: McpServer, client: NetBoxClient) {
       resource: z.string().describe('Resource type name (e.g., "devices", "ip-addresses")'),
       id: z.number().describe('Resource ID'),
     },
+    { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
     async ({ resource, id }) => {
       const result = await client.get(resource, id);
       return {
@@ -62,6 +64,7 @@ export function registerCrudTools(server: McpServer, client: NetBoxClient) {
       resource: z.string().describe('Resource type name (e.g., "devices", "ip-addresses")'),
       data: z.record(z.unknown()).describe('Resource data as key-value pairs'),
     },
+    { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
     async ({ resource, data }) => {
       const result = await client.create(resource, data);
       return {
@@ -83,6 +86,7 @@ export function registerCrudTools(server: McpServer, client: NetBoxClient) {
       id: z.number().describe('Resource ID to update'),
       data: z.record(z.unknown()).describe('Fields to update as key-value pairs'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async ({ resource, id, data }) => {
       const result = await client.update(resource, id, data);
       return {
@@ -103,6 +107,7 @@ export function registerCrudTools(server: McpServer, client: NetBoxClient) {
       resource: z.string().describe('Resource type name (e.g., "devices", "ip-addresses")'),
       id: z.number().describe('Resource ID to delete'),
     },
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async ({ resource, id }) => {
       await client.delete(resource, id);
       return {

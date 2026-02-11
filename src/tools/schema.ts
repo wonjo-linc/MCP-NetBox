@@ -13,6 +13,7 @@ export function registerSchemaTools(server: McpServer, client: NetBoxClient) {
         .optional()
         .describe('Resource type name to get schema for. Omit to list all available resource types.'),
     },
+    { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
     async ({ resource }) => {
       if (!resource) {
         const categories = getResourcesByCategory();

@@ -16,6 +16,7 @@ export function registerSearchTools(server: McpServer, client: NetBoxClient) {
       limit: z.number().optional().describe('Number of results (default: 50)'),
       offset: z.number().optional().describe('Starting position for pagination'),
     },
+    { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
     async ({ resource, query, filters, limit, offset }) => {
       const mergedFilters: Record<string, unknown> = { ...filters };
       if (limit !== undefined) mergedFilters.limit = limit;

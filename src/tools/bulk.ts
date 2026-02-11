@@ -12,6 +12,7 @@ export function registerBulkTools(server: McpServer, client: NetBoxClient) {
         .array(z.record(z.unknown()))
         .describe('Array of resource data objects to create'),
     },
+    { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
     async ({ resource, items }) => {
       const result = await client.bulkCreate(resource, items);
       return {
@@ -36,6 +37,7 @@ export function registerBulkTools(server: McpServer, client: NetBoxClient) {
         )
         .describe('Array of objects with "id" and fields to update'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async ({ resource, items }) => {
       const result = await client.bulkUpdate(
         resource,
@@ -59,6 +61,7 @@ export function registerBulkTools(server: McpServer, client: NetBoxClient) {
       resource: z.string().describe('Resource type name (e.g., "devices", "ip-addresses")'),
       ids: z.array(z.number()).describe('Array of resource IDs to delete'),
     },
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async ({ resource, ids }) => {
       await client.bulkDelete(resource, ids);
       return {

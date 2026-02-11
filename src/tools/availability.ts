@@ -15,6 +15,7 @@ export function registerAvailabilityTools(server: McpServer, client: NetBoxClien
         .optional()
         .describe('For "create": array of IP allocation data (e.g., [{"description": "Server 1"}])'),
     },
+    { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
     async ({ prefix_id, action, count, data }) => {
       if (action === 'list') {
         const result = await client.getAvailableIps(prefix_id, count);
@@ -56,6 +57,7 @@ export function registerAvailabilityTools(server: McpServer, client: NetBoxClien
         .optional()
         .describe('For "create": additional data (e.g., {"description": "New subnet"})'),
     },
+    { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
     async ({ prefix_id, action, prefix_length, data }) => {
       if (action === 'list') {
         const result = await client.getAvailablePrefixes(prefix_id);
@@ -93,6 +95,7 @@ export function registerAvailabilityTools(server: McpServer, client: NetBoxClien
         .optional()
         .describe('For "create": VLAN data (e.g., {"name": "New VLAN"})'),
     },
+    { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
     async ({ group_id, action, data }) => {
       if (action === 'list') {
         const result = await client.getAvailableVlans(group_id);
@@ -129,6 +132,7 @@ export function registerAvailabilityTools(server: McpServer, client: NetBoxClien
         .optional()
         .describe('For "create": ASN data (e.g., {"description": "New ASN"})'),
     },
+    { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
     async ({ range_id, action, data }) => {
       if (action === 'list') {
         const result = await client.getAvailableAsns(range_id);
